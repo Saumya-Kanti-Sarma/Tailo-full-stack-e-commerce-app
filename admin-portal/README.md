@@ -1,0 +1,1 @@
+This is the admin portal of Tailo, made with React Vite and stiled in modular css. It mainly uses React admin and Charjs library

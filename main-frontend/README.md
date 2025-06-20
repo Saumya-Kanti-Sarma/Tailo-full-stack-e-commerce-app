@@ -1,0 +1,1 @@
+This is the main frontend of Tailo, made out of Nest.js with App router, tailwind css and TypeScript
