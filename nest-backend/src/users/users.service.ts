@@ -20,4 +20,9 @@ export class UsersService {
     const users = await this.userModel.find({}, { password: 0, create_at: 0, email: 0 });
     return users;
   }
+
+  async getOneUsers(id: string) {
+    const users = await this.userModel.findById(id, { password: 0, create_at: 0, email: 0 });
+    return users;
+  }
 }

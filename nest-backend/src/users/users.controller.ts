@@ -1,8 +1,7 @@
-import { Body, Controller, Get, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Res } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './user.dto';
 import { Response } from 'express';
-
 @Controller('users')
 export class UsersController {
   constructor(private readonly services: UsersService) { }
@@ -12,10 +11,10 @@ export class UsersController {
       const newUser = await this.services.createUser(userDTO);
       return res.status(200).json({
         message: "account created",
-        newUser
+        newUser,
       });
     } catch (error) {
-      if (error.errorResponse.code === 11000) {
+      if (error.errorResponse && error.errorResponse.code === 11000) {
         const errorCause: string = (Object.keys(error.keyValue)).toString();
         if (errorCause == "name") {
           return res.status(400).json({
@@ -47,6 +46,21 @@ export class UsersController {
       const allUsers = await this.services.getAllUsers();
       return res.status(200).json({
         allUsers
+      })
+    } catch (error) {
+      res.status(400).json({
+        message: "unexpected error in getting users",
+        error
+      })
+    }
+  }
+
+  @Get("/:id")
+  async GetOneUser(@Res() res: Response, @Param("id") id: string) {
+    try {
+      const user = await this.services.getOneUsers(id)
+      return res.status(200).json({
+        user
       })
     } catch (error) {
       res.status(400).json({
